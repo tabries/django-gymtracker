@@ -1,0 +1,4 @@
+Django
+python-dotenv
+djangorestframework-simplejwt
+django-cors-headers==4.7.0
