@@ -1,3 +1,4 @@
+from datetime import datetime
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
@@ -67,5 +68,22 @@ class HistoryViewSet(viewsets.ModelViewSet):
         if not date:
             return Response({'error': 'date query parameter is required.'}, status=400)
         queryset = self.get_queryset().filter(date=date)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['get'], url_path='by_month')
+    def by_month(self, request):
+        date_str = request.query_params.get('date')
+        if not date_str:
+            return Response({'error': 'date query parameter is required.'}, status=400)
+        try:
+            date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+        except ValueError:
+            return Response({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=400)
+
+        queryset = self.get_queryset().filter(
+            date__year=date_obj.year,
+            date__month=date_obj.month
+        )
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
