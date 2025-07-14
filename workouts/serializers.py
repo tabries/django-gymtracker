@@ -1,25 +1,12 @@
 from rest_framework import serializers
-from .models import User, Routine, Exercise, History
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["id", "username", "email", "password"]
-        extra_kwargs = {"password": {"write_only": True}}
-
-    def create(self, validated_data):
-        user = User(**validated_data)
-        user.set_password(validated_data["password"])
-        user.save()
-        return user
+from .models import Routine, Exercise, History
 
 
 class RoutineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Routine
-        fields = ["id", "name", "user", "exercises"]
-        read_only_fields = ["user", "exercises"]
+        fields = ["id", "name", "exercises"]
+        read_only_fields = ["exercises"]
 
 
 class ExerciseSerializer(serializers.ModelSerializer):
@@ -33,10 +20,8 @@ class HistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = History
-        read_only_fields = ["user"]
         fields = [
             "id",
-            "user",
             "exercise",
             "exercise_name",
             "date",

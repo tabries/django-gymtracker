@@ -3,12 +3,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import User, Routine, Exercise, History
-from .serializers import UserSerializer, RoutineSerializer, ExerciseSerializer, HistorySerializer
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+from .models import Routine, Exercise, History
+from .serializers import RoutineSerializer, ExerciseSerializer, HistorySerializer
 
 class RoutineViewSet(viewsets.ModelViewSet):
     queryset = Routine.objects.all()
@@ -27,10 +23,6 @@ class RoutineViewSet(viewsets.ModelViewSet):
         serializer = ExerciseSerializer(exercises, many=True)
         return Response(serializer.data)
     
-    #POST /api/routines/
-    # def perform_create(self, serializer):
-    #     serializer.save(user=self.request.user)
-
 class ExerciseViewSet(viewsets.ModelViewSet):
     queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
