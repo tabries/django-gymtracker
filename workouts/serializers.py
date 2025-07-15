@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Routine, Exercise, History
+from .models import Routine, Exercise, History, Weight
 
 
 class RoutineSerializer(serializers.ModelSerializer):
@@ -31,3 +31,8 @@ class HistorySerializer(serializers.ModelSerializer):
             "weightKg",
             "durationMin",
         ]
+
+class WeightSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Weight
+        fields = ["id", "date", "notes", "weightKg"]

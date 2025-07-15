@@ -1,10 +1,9 @@
 from datetime import datetime
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Routine, Exercise, History
-from .serializers import RoutineSerializer, ExerciseSerializer, HistorySerializer
+from .models import Routine, Exercise, History, Weight
+from .serializers import RoutineSerializer, ExerciseSerializer, HistorySerializer, WeightSerializer
 
 class RoutineViewSet(viewsets.ModelViewSet):
     queryset = Routine.objects.all()
@@ -79,3 +78,11 @@ class HistoryViewSet(viewsets.ModelViewSet):
         )
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+    
+
+class WeightViewSet(viewsets.ModelViewSet):
+    queryset = Weight.objects.all()
+    serializer_class = WeightSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()

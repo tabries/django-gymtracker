@@ -27,14 +27,10 @@ class History(models.Model):
     def __str__(self):
         return f"{self.exercise.name} on {self.date}"
     
-class Weigth(models.Model):
-    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+class Weight(models.Model):
     date = models.DateField()
     notes = models.TextField(blank=True)
-    sets = models.IntegerField(blank=True, null=True)
-    reps = models.IntegerField(blank=True, null=True)
-    weightKg = models.FloatField(blank=True, null=True)
-    durationMin = models.IntegerField(blank=True, null=True)
+    weightKg = models.FloatField()
 
     def __str__(self):
-        return f"{self.exercise.name} on {self.date}"
+        return f"{self.weightKg} on {self.date}"
